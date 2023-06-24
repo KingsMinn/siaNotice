@@ -1,0 +1,15 @@
+<script>
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://www.seoularts.ac.kr/web/cop/bbsWeb/selectBoardList.do?bbsId=BBSMSTR_000000000651');
+    xhr.onload = function() {
+    if (xhr.status === 200) {
+        const html = xhr.responseText;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        const title = doc.querySelector('.tit > a').textContent;
+        console.log(title);
+    }
+    };
+    xhr.send();
+</script>
