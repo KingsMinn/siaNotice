@@ -4,9 +4,18 @@
     </head>
     
     <body>
+        <div class="banner">
+            <a class="bannerButton" href="https://www.seoularts.ac.kr/web/main/mainPage.do">홈페이지</a>
+            <a class="bannerButton" href="https://sportal.seoularts.ac.kr/dashboard">학생포털</a>
+            <a class="bannerButton" href="https://lib.seoularts.ac.kr">도서관</a>
+            <a class="bannerButton" href="https://support.seoularts.ac.kr/">통합대여</a>
+            <a class="bannerButton" href="https://arete.seoularts.ac.kr">ARETE</ㅁ>
+            <a class="bannerButton" href="https://eclass.seoularts.ac.kr">LMS</a>
+            <a class="bannerButton" href="https://arch.seoularts.ac.kr/archive/wb/main">아카이브</a>
+        </div>
         <div class="topText">
             <div class="icon">🤔</div>
-            <h1>오늘은 예대에<br/>어떤 소식이 있을까요?</h1>
+            <h1>오늘은 예대에<br/><p id="titleText"></p></h1>
             <div class="arrow">></div>
         </div>
         <div class="allList">
@@ -21,13 +30,51 @@
 
 <style>
     @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard.css");
-
+    
     *{
         font-family: 'Pretendard';
+        transition: all 0.2s ease;
+        text-decoration: none;
     }
 
     html{
         background: rgb(250, 250, 250);
+    }
+
+    p{
+        margin-top: 0px;
+        font-weight: 900;
+        color: rgb(150, 0, 0);
+        font-size: 60px;
+        line-height: 1.5;
+    }
+
+    .banner{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        width: 100%;
+        height: 40px;
+        background: rgb(150, 0, 0);
+        justify-content: center;
+        z-index: 1;
+    }
+
+    .bannerButton{
+        display: flex;
+        width: 100px;
+        color: white;
+        font-size: 12px;
+        font-weight: 400;
+        align-items: center;
+        justify-content: center;
+        transition-duration: 0.2s;
+    }
+
+    .bannerButton:hover{
+        background-color: rgb(195, 49, 49);
+        font-size: 13px;
     }
 
     .topText{
@@ -53,9 +100,9 @@
     }
 
     h1 {
-        font-weight: 900;
-        color: rgb(187, 0, 0);
-        font-size: 60px;
+        font-weight: 500;
+        color: rgb(150, 0, 0);
+        font-size: 40px;
         line-height: 1.5;
         margin-top: 0px;
     }
@@ -74,22 +121,50 @@
 
     ul {
         padding-inline-start: 0px;
-        margin-top: 30px;
+        margin-top: 40px;
         margin-bottom: 100px;
         background: white;
         border-radius: 30px;
     }
 
     h2{
-        font-weight: 700;
+        font-weight: 800;
         font-size: 30px;
         display: flex;
-        padding-left: 10px;
+        padding-left: 20px;
         margin-bottom: -20px;
+        color: rgb(150, 0, 0);
+    }
+
+    li{
+        border-bottom: 4px solid rgb(250, 250, 250);
+        padding: 30px;
+        display: flex;
+        height:30px;
+        align-items: center;
+    }
+
+    li:hover{
+        font-size: 21px;
+        background: rgb(247, 247, 247);
     }
 </style>
 
 <script>
+    var i = 0;
+    var txt = '어떤 소식이 있을까요?'; /* The text */
+    var speed = 120; /* The speed/duration of the effect in milliseconds */
+
+    function typeWriter() {
+        if (i < txt.length) {
+            document.getElementById("titleText").innerHTML += txt.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+
+    typeWriter();
+
     fetch('https://www.seoularts.ac.kr/web/cop/bbsWeb/selectBoardList.do?bbsId=BBSMSTR_000000000651')
         .then(response => response.text())
         .then(html => {
@@ -108,7 +183,6 @@
                     importantList.push(title.replace('중요 공지사항', ''));
                 } else {
                     resultList.push(title);
-
                 }
             });
 
@@ -117,25 +191,6 @@
                 const li = document.createElement('li');
                 li.textContent = item;
                 resultListElement.appendChild(li);
-                li.style.padding = '30px';
-                li.style.display = 'flex';
-                //li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
-                //li.style.borderRadius = '20px';  
-                li.style.margin = '20px 0px';
-                //li.style.background = '#ffffff';
-
-                li.style.transition = 'transform 0.2s ease';
-
-                li.addEventListener('mouseover', () => {
-                    li.style.transform = 'scale(1.01)';
-                    li.style.background = 'rgb(247, 247, 247)';
-                });
-
-                li.addEventListener('mouseout', () => {
-                    li.style.transform = 'scale(1)';
-                    li.style.background = '#ffffff';
-                });
-
             });
 
             const importantListElement = document.getElementById('importantList');
@@ -143,23 +198,6 @@
                 const li = document.createElement('li');
                 li.textContent = item;
                 importantListElement.appendChild(li);
-                li.style.padding = '30px';
-                li.style.display = 'flex';
-                //li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
-                li.style.borderRadius = '20px';  
-                li.style.margin = '20px 0px';
-                //li.style.background = '#ffffff';
-
-                li.style.transition = 'transform 0.2s ease';
-
-                li.addEventListener('mouseover', () => {
-                    li.style.transform = 'scale(1.05)';
-                });
-
-                li.addEventListener('mouseout', () => {
-                    li.style.transform = 'scale(1)';
-                });
-
             });
         })
 
