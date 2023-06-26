@@ -1,15 +1,153 @@
-<script>
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://www.seoularts.ac.kr/web/cop/bbsWeb/selectBoardList.do?bbsId=BBSMSTR_000000000651');
-    xhr.onload = function() {
-    if (xhr.status === 200) {
-        const html = xhr.responseText;
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        
-        const title = doc.querySelector('.tit > a').textContent;
-        console.log(title);
+<html>
+    <head>
+        <title>오늘 예대는</title>
+    </head>
+    
+    <body>
+        <div class="topText">
+            <div class="icon">🤔</div>
+            <h1>오늘은 예대에<br/>어떤 소식이 있을까요?</h1>
+        </div>
+        <div class="allList">
+            <h2>중요한 공지</h2>
+            <ul id="importantList"></ul>
+
+            <h2>최근 공지</h2>
+            <ul id="resultList"></ul>
+        </div>
+    </body>
+</html>
+
+<style>
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.7/dist/web/static/pretendard.css");
+
+    *{
+        font-family: 'Pretendard';
     }
-    };
-    xhr.send();
+
+    html{
+        background: rgb(250, 250, 250);
+    }
+
+    .topText{
+        display: flex;
+        text-align: center;
+        width: 100%;
+        justify-content: center;
+        margin-top: 200px;
+        flex-direction: column;
+    }
+
+    .icon{
+        font-size: 200px;
+        margin-bottom: 0px;
+    }
+
+    h1 {
+        font-weight: 900;
+        color: rgb(187, 0, 0);
+        font-size: 60px;
+        line-height: 1.5;
+        margin-top: 0px;
+    }
+
+    .allList {
+        font-weight: 600;
+        font-size: 20px;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        margin: 0px 100px;
+        background-color: rgba(255, 255, 255, 0);
+        color: #333333;
+    }
+
+    ul {
+        padding-inline-start: 0px;
+    }
+
+    .h2{
+        font-weight: 600;
+        font-size: 50px;
+        display: flex;
+        margin-bottom: -100px;
+    }
+</style>
+
+<script>
+    fetch('https://www.seoularts.ac.kr/web/cop/bbsWeb/selectBoardList.do?bbsId=BBSMSTR_000000000651')
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const items = doc.querySelectorAll('.normal_board.board_qna > li');
+            const resultList = [];
+            const importantList = [];
+
+            items.forEach(item => {
+                const isImportant = item.classList.contains('important');
+                const title = item.querySelector('.tit > a').textContent;
+
+                if (isImportant) {
+                    importantList.push(title.replace('중요 공지사항', ''));
+                } else {
+                    resultList.push(title);
+
+                }
+            });
+
+            const resultListElement = document.getElementById('resultList');
+            resultList.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                resultListElement.appendChild(li);
+                li.style.padding = '30px';
+                li.style.display = 'flex';
+                li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
+                li.style.borderRadius = '20px';  
+                li.style.margin = '20px 0px';
+                li.style.background = '#ffffff';
+
+                li.style.transition = 'transform 0.2s ease';
+
+                li.addEventListener('mouseover', () => {
+                    li.style.transform = 'scale(1.05)';
+                });
+
+                li.addEventListener('mouseout', () => {
+                    li.style.transform = 'scale(1)';
+                });
+
+            });
+
+            const importantListElement = document.getElementById('importantList');
+            importantList.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                importantListElement.appendChild(li);
+                li.style.padding = '30px';
+                li.style.display = 'flex';
+                li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
+                li.style.borderRadius = '20px';  
+                li.style.margin = '20px 0px';
+                li.style.background = '#ffffff';
+
+                li.style.transition = 'transform 0.2s ease';
+
+                li.addEventListener('mouseover', () => {
+                    li.style.transform = 'scale(1.05)';
+                });
+
+                li.addEventListener('mouseout', () => {
+                    li.style.transform = 'scale(1)';
+                });
+
+            });
+        })
+
+        .catch(error => {
+            console.log(error);
+        });
 </script>
