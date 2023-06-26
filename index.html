@@ -7,6 +7,7 @@
         <div class="topText">
             <div class="icon">🤔</div>
             <h1>오늘은 예대에<br/>어떤 소식이 있을까요?</h1>
+            <div class="arrow">></div>
         </div>
         <div class="allList">
             <h2>중요한 공지</h2>
@@ -38,6 +39,14 @@
         flex-direction: column;
     }
 
+    .arrow{
+        color: rgb(224, 224, 224);
+        font-size: 100;
+        font-weight: 100;
+        transform: rotate(90deg) scaleY(1.5);
+        margin: 100px 0px;
+    }
+
     .icon{
         font-size: 200px;
         margin-bottom: 0px;
@@ -65,13 +74,18 @@
 
     ul {
         padding-inline-start: 0px;
+        margin-top: 30px;
+        margin-bottom: 100px;
+        background: white;
+        border-radius: 30px;
     }
 
-    .h2{
-        font-weight: 600;
-        font-size: 50px;
+    h2{
+        font-weight: 700;
+        font-size: 30px;
         display: flex;
-        margin-bottom: -100px;
+        padding-left: 10px;
+        margin-bottom: -20px;
     }
 </style>
 
@@ -105,19 +119,21 @@
                 resultListElement.appendChild(li);
                 li.style.padding = '30px';
                 li.style.display = 'flex';
-                li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
-                li.style.borderRadius = '20px';  
+                //li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
+                //li.style.borderRadius = '20px';  
                 li.style.margin = '20px 0px';
-                li.style.background = '#ffffff';
+                //li.style.background = '#ffffff';
 
                 li.style.transition = 'transform 0.2s ease';
 
                 li.addEventListener('mouseover', () => {
-                    li.style.transform = 'scale(1.05)';
+                    li.style.transform = 'scale(1.01)';
+                    li.style.background = 'rgb(247, 247, 247)';
                 });
 
                 li.addEventListener('mouseout', () => {
                     li.style.transform = 'scale(1)';
+                    li.style.background = '#ffffff';
                 });
 
             });
@@ -129,10 +145,10 @@
                 importantListElement.appendChild(li);
                 li.style.padding = '30px';
                 li.style.display = 'flex';
-                li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
+                //li.style.boxShadow = '5px 5px 10px rgba(0, 0, 0, 0.2)';
                 li.style.borderRadius = '20px';  
                 li.style.margin = '20px 0px';
-                li.style.background = '#ffffff';
+                //li.style.background = '#ffffff';
 
                 li.style.transition = 'transform 0.2s ease';
 
